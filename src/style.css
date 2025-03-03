@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+.playmusiccenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.playmusic{
+  position: relative; /* Nécessaire pour que top fonctionne */
+  left: 0px;
+  top: 90px; /* Déplace le bouton de 50px vers le bas */
+  width: 60px;
+  height: 60px;
+ 
+}
+
+body{
+  background-color: bisque;
+}
+h1{
+  font-family: "Quicksand", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #171717;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p{
+  font-family: "Quicksand", serif;
+  font-optical-sizing: auto;
+}
+
+.centerbutton1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.centerbutton2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.centerpersonnage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.centerinput{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* CSS */
+.button-3 {
+  appearance: none;
+  background-color: #8e2929;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.button-56 {
+  align-items: center;
+  background-color: bisque;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter,sans-serif;
+  font-size: 16px;
+  height: 48px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-56:after {
+  background-color: #111;
+  border-radius: 8px;
+  content: "";
+  display: block;
+  height: 48px;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  transform: translate(8px, 8px);
+  transition: transform .2s ease-out;
+  z-index: -1;
+}
+
+.button-56:hover:after {
+  transform: translate(0, 0);
+}
+
+.button-56:active {
+  background-color: #171717;
+  outline: 0;
+}
+
+.button-56:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .button-56 {
+    padding: 0 40px;
+  }
+}
+
+/* From Uiverse.io by Jaareet */ 
+.input {
+  height: 25px;
+  width: 120px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+  font-weight: 500;
+  font-size: .8vw;
+  color: #fff;
+  background-color: rgb(28,28,30);
+  box-shadow: 0 0 .4vw rgba(0,0,0,0.5), 0 0 0 .15vw transparent;
+  border-radius: 0.4vw;
+  border: none;
+  outline: none;
+  padding: 0.4vw;
+  max-width: 190px;
+  transition: .4s;
+  position: absolute;
+  top: 380px;
+}
+
+.input:hover {
+  box-shadow: 0 0 0 .15vw rgba(135, 207, 235, 0.186);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 .15vw rgb(8, 8, 8);
+}
+
+
+.personnageimg{
+ 
+  width : 220px;
+  height : 180px;
+}
