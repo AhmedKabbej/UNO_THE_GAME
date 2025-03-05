@@ -4,6 +4,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.up:hover{
+  position: relative;
+  bottom: 40px;
+}
 .playmusic{
   position: relative; /* Nécessaire pour que top fonctionne */
   left: 0px;
@@ -11,6 +16,9 @@
   width: 60px;
   height: 60px;
  
+}
+ul{
+  position: absolute;
 }
 
 body{
