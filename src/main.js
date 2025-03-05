@@ -79,9 +79,13 @@ createPlayer(player){
   const li = document.createElement("li");
   this.playerList.appendChild(li);
   const pIsready = document.createElement("p");
+  const pName = document.createElement("p");
   li.appendChild(pIsready);
+  li.appendChild(pName);
   console.log(player.isReady);
-  pIsready.innerText(pIsready);
+
+  pIsready.innerText = player.isReady;
+  pName.innerText = player.name;
 
 }
 
