@@ -9,9 +9,15 @@
   position: absolute;
   top: 550px;
 }
-#card-container:hover{
-  position: absolute;
-  top: 500px;
+.card:hover{
+  /* transform: translateY(-40px);
+  transform: rotate3d(0, 1, 0.5, 3.142rad); */
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  transform: rotateY(32deg) rotateZ(60deg);
+ 
+  /* position: absolute;
+  top: 500px; */
 }
 
 .up:hover{

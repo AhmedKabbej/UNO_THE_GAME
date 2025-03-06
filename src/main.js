@@ -1,6 +1,13 @@
 import './style.css'
 import { io } from 'socket.io-client';
 const socket = io( 'http://localhost:3000');
+import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
+
+gsap.registerPlugin(Draggable);
+
+
+
 
 
 
@@ -65,12 +72,21 @@ export class Game {
     playerHand.forEach(card => {
       console.log(card);
       const img = document.createElement('img');
+      img.classList.add('card');
       img.src = `/uno-simple-cards/${card.color + card.value}.png`;
       // img.src = `${card.color + card.value}.png`
       console.log(img.src);
       console.log(cardContainer);
 
       cardContainer.appendChild(img);
+      const cards = document.querySelectorAll(".card");
+
+cards.forEach(card => {
+  console.log(card)
+    Draggable.create(card, {
+      
+    });
+});
     });
     
     
@@ -122,6 +138,7 @@ createPlayer(player){
 
 }
 
+
 // player. hand. forEach( (card)
 // console. log (card. color) console. log (card. value)
 // const img = document. createElement ('ing')
@@ -133,6 +150,7 @@ createPlayer(player){
 
 
 }
+
 
 
 
