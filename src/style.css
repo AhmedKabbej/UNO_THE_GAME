@@ -5,6 +5,15 @@
   justify-content: center;
 }
 
+#card-container{
+  position: absolute;
+  top: 550px;
+}
+#card-container:hover{
+  position: absolute;
+  top: 500px;
+}
+
 .up:hover{
   position: relative;
   bottom: 40px;

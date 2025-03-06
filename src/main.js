@@ -30,6 +30,8 @@ export class Game {
   initSocketListener() {
     this.socket.on('joinGameStatus', this.handleJoinGameStatus.bind(this));
     this.socket.on('updatePlayers', this.handleUpdatePlayers.bind(this));
+    this.socket.on('gameStart' , this.handleGameStart.bind(this));
+    
   }
 
   // Méthode pour gérer le clic du bouton "Rejoindre le jeu"
@@ -37,12 +39,42 @@ export class Game {
     const playerName = this.playerNameInput.value;
     console.log('Player Name:', playerName);
 
-   
-
     // Émettre l'événement pour rejoindre la partie
     this.socket.emit('joinGame', playerName);
   }
 
+
+  handleGameStart({players, discardPile, currentPlayer}){
+    console.log(players);
+    players.forEach(player => {
+      if (this.socket.id == player.id) {
+       console.log(player.hand);
+       this.createCards(player.hand);
+      }
+
+    
+    });
+
+    
+    
+  }
+  createCards(playerHand){
+
+    const cardContainer = document.getElementById('card-container'); // Conteneur où les cartes seront ajoutées
+
+    playerHand.forEach(card => {
+      console.log(card);
+      const img = document.createElement('img');
+      img.src = `/uno-simple-cards/${card.color + card.value}.png`;
+      // img.src = `${card.color + card.value}.png`
+      console.log(img.src);
+      console.log(cardContainer);
+
+      cardContainer.appendChild(img);
+    });
+    
+    
+  }
   // Méthode pour gérer la réponse du serveur concernant le statut du jeu
   handleJoinGameStatus(message) {
     console.log(message);
@@ -53,6 +85,7 @@ export class Game {
     }
   }
   handleUpdatePlayers(players){
+    this.playerList.innerHTML = ''
     players.forEach(player => {
       console.log(player.name);
       console.log(player.isReady);
@@ -89,7 +122,19 @@ createPlayer(player){
 
 }
 
+// player. hand. forEach( (card)
+// console. log (card. color) console. log (card. value)
+// const img = document. createElement ('ing')
+// // img-src = ${card.color + card.value) - png*
+// // console. log(img.src);
+// }
+
+
+
+
 }
+
+
 
 
 
