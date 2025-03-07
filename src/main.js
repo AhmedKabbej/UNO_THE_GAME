@@ -1,6 +1,6 @@
 import './style.css'
 import { io } from 'socket.io-client';
-const socket = io( 'http://localhost:3000');
+const socket = io('http://localhost:3000');
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 
@@ -20,7 +20,7 @@ export class Game {
     this.buttonReady = document.getElementById('ready');
     this.playerList = document.getElementById('playerList');
 
-    
+
     // Initialisation des événements
     this.initEvents();
     this.initSocketListener();
@@ -30,15 +30,16 @@ export class Game {
   initEvents() {
     this.joinButton.addEventListener('click', this.handleJoinGame.bind(this));
     this.buttonReady.addEventListener('click', this.handleButtonReady.bind(this));
-   
+
   }
- 
+
 
   initSocketListener() {
     this.socket.on('joinGameStatus', this.handleJoinGameStatus.bind(this));
     this.socket.on('updatePlayers', this.handleUpdatePlayers.bind(this));
-    this.socket.on('gameStart' , this.handleGameStart.bind(this));
-    
+    this.socket.on('gameStart', this.handleGameStart.bind(this));
+    this.socket.on("cardPlayed", this.handleCardPlayed.bind(this));
+
   }
 
   // Méthode pour gérer le clic du bouton "Rejoindre le jeu"
@@ -51,21 +52,21 @@ export class Game {
   }
 
 
-  handleGameStart({players, discardPile, currentPlayer}){
+  handleGameStart({ players, discardPile, currentPlayer }) {
     console.log(players);
     players.forEach(player => {
       if (this.socket.id == player.id) {
-       console.log(player.hand);
-       this.createCards(player.hand);
+        console.log(player.hand);
+        this.createCards(player.hand);
       }
 
-    
+
     });
 
-    
-    
+
+
   }
-  createCards(playerHand){
+  createCards(playerHand) {
 
     const cardContainer = document.getElementById('card-container'); // Conteneur où les cartes seront ajoutées
 
@@ -79,18 +80,25 @@ export class Game {
       console.log(cardContainer);
 
       cardContainer.appendChild(img);
-      const cards = document.querySelectorAll(".card");
-
-cards.forEach(card => {
-  console.log(card)
-    Draggable.create(card, {
-      
-    });
-});
 
     });
-    
-    
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((cardElement,i) => {
+      console.log(cardElement);
+      Draggable.create(cardElement, {
+        onClick: function () {
+          
+          console.log("clicked", socket, playerHand[i]);
+          socket.emit("playCard", playerHand[i]);
+        },
+        onDragEnd: function () {
+          console.log("drag ended");
+        },
+      });
+    });
+
+
   }
   // Méthode pour gérer la réponse du serveur concernant le statut du jeu
   handleJoinGameStatus(message) {
@@ -101,51 +109,75 @@ cards.forEach(card => {
       this.messageContainer.textContent = 'Message: ' + JSON.stringify(message); // Affiche l'objet entier
     }
   }
-  handleUpdatePlayers(players){
+  handleUpdatePlayers(players) {
     this.playerList.innerHTML = ''
     players.forEach(player => {
       console.log(player.name);
       console.log(player.isReady);
       this.createPlayer(player);
-      
+
     })
 
-      // console.log(players[0].name);
+    // console.log(players[0].name);
   }
-  handleButtonReady(){
+  handleButtonReady() {
     socket.emit('playerReady');
-     // Changer la couleur de fond du bouton avec la classe 'button-3'
+    // Changer la couleur de fond du bouton avec la classe 'button-3'
     document.querySelector('.button-3').style.backgroundColor = 'green';
   }
 
+  handleCardPlayed({ card, currentPlayer, previousPlayer, discardPile }) {
+    // Affiche la carte jouée dans la console
+    console.log("Carte jouée:", card);  // Affichage de l'objet Card) {
 
 
-//cree un paragraphe pour ready et un pour le pseudo dans chaque li
+    // Vérifie si c'est bien notre tour et si c'est la bonne carte
+    if (currentPlayer === socket.id) {
+      // Trouver la carte dans notre main (hand) et la retirer
+      let index = players[currentPlayer].hand.findIndex(c => c.id === card.id);
+      if (index !== -1) {
+        players[currentPlayer].hand.splice(index, 1);
+      }
 
-//ajouter chaque li au ul 'playerList' id
+      // Affiche la défausse mise à jour
+      console.log("Défausse mise à jour:", discardPile);
 
-createPlayer(player){
-  //recuperer pour chaque joueur ready et le pseudo
-  const li = document.createElement("li");
-  this.playerList.appendChild(li);
-  const pIsready = document.createElement("p");
-  const pName = document.createElement("p");
-  li.appendChild(pIsready);
-  li.appendChild(pName);
-  console.log(player.isReady);
-
-  pIsready.innerText = player.isReady;
-  pName.innerText = player.name;
-
-}
+      // Met à jour l'état des joueurs
 
 
-// player. hand. forEach( (card)
-// console. log (card. color) console. log (card. value)
-// const img = document. createElement ('ing')
-// // img-src = ${card.color + card.value) - png*
-// // console. log(img.src);
-// }
+      // io.emit('updatePlayers', players);
+    }
+  };
+
+
+
+
+  //cree un paragraphe pour ready et un pour le pseudo dans chaque li
+
+  //ajouter chaque li au ul 'playerList' id
+
+  createPlayer(player) {
+    //recuperer pour chaque joueur ready et le pseudo
+    const li = document.createElement("li");
+    this.playerList.appendChild(li);
+    const pIsready = document.createElement("p");
+    const pName = document.createElement("p");
+    li.appendChild(pIsready);
+    li.appendChild(pName);
+    console.log(player.isReady);
+
+    pIsready.innerText = player.isReady;
+    pName.innerText = player.name;
+
+  }
+
+
+  // player. hand. forEach( (card)
+  // console. log (card. color) console. log (card. value)
+  // const img = document. createElement ('ing')
+  // // img-src = ${card.color + card.value) - png*
+  // // console. log(img.src);
+  // }
 
 
 
@@ -181,14 +213,14 @@ const playButton = document.querySelector('.playmusic');
 const music = document.getElementById('music');
 
 playButton.addEventListener('click', () => {
-    if (music.paused) {
-        music.play(); // Si la musique est en pause, on la joue
-        playButton.textContent = 'Stop Music'; // Change le texte du bouton
-    } else {
-        music.pause(); // Si la musique joue, on la met en pause
-        music.currentTime = 0; // Remise à zéro de la musique
-        playButton.textContent = 'Play Music'; // Change le texte du bouton
-    }
+  if (music.paused) {
+    music.play(); // Si la musique est en pause, on la joue
+    playButton.textContent = 'Stop Music'; // Change le texte du bouton
+  } else {
+    music.pause(); // Si la musique joue, on la met en pause
+    music.currentTime = 0; // Remise à zéro de la musique
+    playButton.textContent = 'Play Music'; // Change le texte du bouton
+  }
 });
 
 
