@@ -15,7 +15,6 @@
   perspective: 2000px;
   transform-style: preserve-3d;
   transform: rotateY(32deg) rotateZ(60deg);
- 
   /* position: absolute;
   top: 500px; */
 }
